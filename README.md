@@ -17,6 +17,10 @@ This project was inspired by, and is structured similar to,
 - BBEdit command line tools (“BBEdit > Install Command Line Tools”)
 - [Markdownlint-cli2](https://github.com/DavidAnson/markdownlint-cli2) installed
   and configured as indicated in [markdownlint-cli2 — Configuration](https://github.com/DavidAnson/markdownlint-cli2#configuration)
+  - No custom formatter configured— ie, no `markdownlint-cli2-formatter`,
+    `markdownlint-cli2-formatter-template`, etc.
+  - Either `"noProgress": false` (default), or `"noProgress": true` can be set
+    in the active configuration file for markdownlint-cli2.
   
 Initial development and testing was performed with:
 
@@ -27,7 +31,7 @@ Initial development and testing was performed with:
 ## Installation
 
 1. Download and unzip the package:
-   [Markdownlint-cli2.bbpackage_v0.9.1.zip](https://github.com/ollicle/BBEdit-ESLint/raw/master/dist/Markdownlint-cli2.bbpackage_v0.9.1.zip)
+   [Markdownlint-cli2.bbpackage_v0.9.2.zip](https://github.com/mobilemind/BBEdit-Markdownlint-cli2/raw/main/dist/Markdownlint-cli2.bbpackage_v0.9.2.zip)
 2. Double–click the Markdownlint-cli2.bbpackage, BBEdit will prompt you to
    install (or update), and restart.
 
