@@ -11,5 +11,6 @@
 		"no-inline-html": true
 	},
 	"gitignore": true,
+	// Markdownlint-cli2.sh should work whether noProgress is true or false
 	"noProgress": true
 }

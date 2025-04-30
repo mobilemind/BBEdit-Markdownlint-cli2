@@ -25,7 +25,7 @@ fi
 # confirm there is a non-empty file to check
 if [ ! -s "${BB_DOC_PATH}" ] ; then
 	NOTIFY "SCRIPT: ERROR" "\"${BB_DOC_PATH}\" not found or empty." 'sosumi'
-	echo "ERROR: '${BB_DOC_PATH}' not found or empty."
+	echo "ERROR: File '${BB_DOC_PATH}' from BBEdit was not found or empty."
 	exit 1
 fi
 
@@ -39,15 +39,19 @@ if [ -z "$RESULTS" ] ; then
 	exit 1
 fi
 
-# Summary with no errors indicates just that
-if echo "$RESULTS" | grep -Fq 'Summary: 0 error(s)' > /dev/null 2>&1 ; then
-	# no errors, exit quietly with terminal notifier
+# when the config for markdownlint-cli2 has "noProgress": true"
+# AND there's no errors, results looks like: 'markdownlint-cli2 v0.17.2 (markdownlint v0.37.4)'
+# OR if "noProgress": true" and there's no errors, a summary shows 0 errors
+# shellcheck disable=SC2143
+if [ -z "$(echo "$RESULTS" | grep -Ev 'markdownlint-cli2 v[0-9]+\.[0-9]+\.[0-9]+ \(markdownlint v[0-9]+\.[0-9]+\.[0-9]+\)')" ] || echo "$RESULTS" | grep -Fq 'Summary: 0 error(s)' > /dev/null 2>&1 ; then
+	# no errors, indicate success with terminal notifier and default sound before exiting
 	NOTIFY "$SCRIPT $SHORTNAME" 'No errors.' 'default'
 	exit 0
 fi
 
-# trim summary information from the top to pass BBEdit Results browser a  clean list of issues
-RESULTS="$(echo "$RESULTS" | sed '1,/Summary/d')"
+# trim summary or version info from the top to pass bbresults a clean list of issues
+RESULTS="$(echo "$RESULTS" | sed '/^markdownlint-cli2 v/d; /^Linting: /,/^Summary: /d')"
+echo "RESULTS: $RESULTS"
 
 # set BBEdit results RegEx pattern for markdownlint-cli2 default output
 PATTERN='(?P<file>.+?):(?P<line>\d+)?(:(?P<col>\d+))? (?P<type>\S+) (?P<msg>.*)$'
