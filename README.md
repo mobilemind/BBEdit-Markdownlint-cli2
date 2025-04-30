@@ -79,9 +79,11 @@ on the Mac running **Markdownlint-cli2**, the behavior changes slightly.
 
 ## Building the Package
 
-In your Terminal:
+In your Terminal clone the repository, change to the directory, and make the
+package:
 
-    cd BBEdit-ESLint/
+    git clone https://github.com/mobilemind/BBEdit-Markdownlint-cli2.git
+    cd BBEdit-Markdownlint-cli2
     make
 
 to also install the fresh build:
