@@ -1,10 +1,15 @@
 // sample configuration file for markdownlint-cli2
 {
-  "default": true,
-  "fenced-code-language": {
-    "allowed_languages": ["bash", "Markdown", "JavaScript", "JSON"],
-    "language_only": true
-  },
-  "line-length": 82,
-  "no-inline-html": true
+	"config": {
+		"fenced-code-language": {
+			"allowed_languages": ["bash", "Markdown"],
+			"language_only": true
+		},
+		"line-length": {
+			"line_length": 82,
+		},
+		"no-inline-html": true
+	},
+	"gitignore": true,
+	"noProgress": true
 }
