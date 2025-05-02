@@ -31,9 +31,9 @@ Initial development and testing was performed with:
 ## Installation
 
 1. Download and unzip the package:
-   [Markdownlint-cli2.bbpackage_v0.9.2.zip](https://github.com/mobilemind/BBEdit-Markdownlint-cli2/raw/main/dist/Markdownlint-cli2.bbpackage_v0.9.2.zip)
-2. Double–click the Markdownlint-cli2.bbpackage, BBEdit will prompt you to
-   install (or update), and restart.
+   [Markdownlint-cli2.bbpackage_v0.9.3.zip](https://github.com/mobilemind/BBEdit-Markdownlint-cli2/raw/main/dist/Markdownlint-cli2.bbpackage_v0.9.3.zip)
+2. Double–click the Markdownlint-cli2.bbpackage_v0.9.2.bbpackage, BBEdit will
+   prompt you to install (or update), and restart.
 
 The package file will be copied to the Packages directory in BBEdit’s
 Application Support directory. Delete it from here should you wish uninstall
@@ -57,7 +57,7 @@ script will log errors to the BBEdit `Unix Script Output` file.
 ## Usage
 
 Once installed the script **Markdownlint-cli2** will appear in the BBEdit
-scripts menu. In addition **Markdownlint-cli2* will appear in the Scripts
+scripts menu. In addition **Markdownlint-cli2** will appear in the Scripts
 palette where you can assign your own keyboard shortcut.
 
 Open a Markdown file in BBEdit and trigger **Markdownlint-cli2**. A BBEdit

@@ -2,7 +2,7 @@
 {
 	"config": {
 		"fenced-code-language": {
-			"allowed_languages": ["bash", "Markdown"],
+			"allowed_languages": ["bash"],
 			"language_only": true
 		},
 		"line-length": {
