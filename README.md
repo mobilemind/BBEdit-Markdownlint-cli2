@@ -31,9 +31,9 @@ Initial development and testing was performed with:
 ## Installation
 
 1. Download and unzip the package:
-   [Markdownlint-cli2.bbpackage_v0.9.3.zip](https://github.com/mobilemind/BBEdit-Markdownlint-cli2/raw/main/dist/Markdownlint-cli2.bbpackage_v0.9.3.zip)
-2. Double–click the Markdownlint-cli2.bbpackage_v0.9.2.bbpackage, BBEdit will
-   prompt you to install (or update), and restart.
+   [Markdownlint-cli2.bbpackage_v0.9.5.zip](https://github.com/mobilemind/BBEdit-Markdownlint-cli2/raw/main/dist/Markdownlint-cli2.bbpackage_v0.9.5.zip)
+2. Double–click the Markdownlint-cli2.bbpackage, BBEdit will prompt you to
+   install (or update), and restart.
 
 The package file will be copied to the Packages directory in BBEdit’s
 Application Support directory. Delete it from here should you wish uninstall
@@ -63,9 +63,6 @@ palette where you can assign your own keyboard shortcut.
 Open a Markdown file in BBEdit and trigger **Markdownlint-cli2**. A BBEdit
 results window should open listing any Markdownlint-cli2 feedback. If there
 are no warnings or errors to report nothing will happen.
-
-If [terminal-notifier](https://github.com/julienXX/terminal-notifier) is installed,
-on the Mac running **Markdownlint-cli2**, the behavior changes slightly.
 
 - If markdownlint-cli2 finds no issues, a macOS notification is posted (assuming
   Do Not Disturb is off) and the default alert sound plays. The message title
