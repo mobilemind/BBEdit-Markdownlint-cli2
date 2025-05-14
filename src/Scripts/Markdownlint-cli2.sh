@@ -2,25 +2,32 @@
 
 SHORTNAME="$(basename "$BB_DOC_PATH")"
 SCRIPT="$(basename "$0" '.sh')"
+SCRIPTDIR="$(pwd)"
+ASNOTIFY="${SCRIPTDIR%/*}/Resources/as-notify.scpt"
+VERSION="PLIST_VERSION"
+
+NOTIFY() { # $1=Title, $2=Message, $3=Sound
+	(nohup osascript "$ASNOTIFY" "$1" "$2" "$3" >/dev/null 2>&1 &)
+}
 
 # check for npx
 if ! hash npx > /dev/null 2>&1 ; then
-	osascript -e "display notification \"npx not found. Try installing npm. Then restart BBedit.\" with title \"$SCRIPT: ERROR\" subtitle \"\" sound name \"sosumi\""
-	echo "ERROR: markdownlint-cli2 not installed. Try installing it with 'npm install -g npx' and/or adding it to your PATH variable. Then restart BBedit."
+	NOTIFY "$SCRIPT: ERROR" "npx not found. Try installing npm. Then restart BBedit." 'sosumi'
+	echo "ERROR: npx not found. Try installing npm. Then restart BBedit. (v$VERSION)"
 	exit 1
 fi
 
 # check for markdownlint-cli2
 if ! hash markdownlint-cli2 > /dev/null 2>&1 ; then
-	osascript -e "display notification \"markdownlint-cli2 not installed. Try installing it with 'npm install -g markdownlint-cli2'. Then restart BBedit.\" with title \"$SCRIPT: ERROR\" subtitle \"\" sound name \"sosumi\""
-	echo "ERROR: markdownlint-cli2 not installed. Try installing it with 'npm install -g markdownlint-cli2' then restart Terminal."
+	NOTIFY "$SCRIPT: ERROR" "markdownlint-cli2 not installed. Try installing it with 'npm install -g markdownlint-cli2'. Then restart BBedit." 'sosumi'
+	echo "ERROR: markdownlint-cli2 not installed. Try installing it with 'npm install -g markdownlint-cli2' then restart BBEdit. (v$VERSION)"
 	exit 1
 fi
 
 # confirm there is a non-empty file to check
 if [ ! -s "${BB_DOC_PATH}" ] ; then
-	osascript -e "display notification \"BB_DOC_PATH not found, or empty:\" & return & \"${BB_DOC_PATH}\" with title \"$SCRIPT: ERROR\" subtitle \"\" sound name \"sosumi\""
-	echo "ERROR: File '${BB_DOC_PATH}' from BBEdit was not found or empty."
+	NOTIFY "$SCRIPT: ERROR" "BB_DOC_PATH not found, or empty: '$BB_DOC_PATH'" 'sosumi'
+	echo "ERROR: File '${BB_DOC_PATH}' from BBEdit was not found or empty. (v$VERSION)"
 	exit 1
 fi
 
@@ -29,13 +36,25 @@ if [ -n "$BB_DOC_WORKSPACE_ROOT" ] && [ "${BB_DOC_PATH#*"$BB_DOC_WORKSPACE_ROOT"
 	cd "$BB_DOC_WORKSPACE_ROOT" > /dev/null 2>&1 || true
 fi
 
-RESULTS="$(npx markdownlint-cli2 "${BB_DOC_PATH}" 2>&1 || echo '')"
+
+if npx markdownlint-cli2 "${BB_DOC_PATH}" > /dev/null 2>&1 ; then
+	# return code 0 = no errors
+	NOTIFY "$SCRIPT: $SHORTNAME" 'No errors.' 'default'
+	exit 0
+elif [ "$?" -eq 2 ] ; then
+	NOTIFY "$SCRIPT: ERROR" "No results from 'npx markdownlint-cli2 \"$BB_DOC_PATH\", check configuration." 'sosumi'
+	echo "SCRIPT: ERROR: No results from 'npx markdownlint-cli2 \"${BB_DOC_PATH}\". Check configuration. (v$VERSION)"
+	npx markdownlint-cli2 "${BB_DOC_PATH}"
+	exit 1
+fi
+
+RESULTS="$(npx markdownlint-cli2 "${BB_DOC_PATH}" 2>&1)"
 
 # check results
 if [ -z "$RESULTS" ] ; then
 	# no results is an error, there should at least be summary info
-	osascript -e "display notification \"No results from 'npx markdownlint-cli2 \" & quote & \"${BB_DOC_PATH}\" & quote & \"'. Check configuration.\" with title \"$SCRIPT: ERROR\" subtitle \"\" sound name \"sosumi\""
-	echo "SCRIPT: ERROR: No results from 'npx markdownlint-cli2 \"${BB_DOC_PATH}\". Check configuration."
+	NOTIFY "$SCRIPT: ERROR" "No results from 'npx markdownlint-cli2 \"$BB_DOC_PATH\", check configuration." 'sosumi'
+	echo "SCRIPT: ERROR: No results from 'npx markdownlint-cli2 \"${BB_DOC_PATH}\". Check configuration. (v$VERSION)"
 	exit 1
 fi
 
@@ -45,7 +64,7 @@ fi
 # shellcheck disable=SC2143
 if [ -z "$(echo "$RESULTS" | grep -Ev 'markdownlint-cli2 v[0-9]+\.[0-9]+\.[0-9]+ \(markdownlint v[0-9]+\.[0-9]+\.[0-9]+\)')" ] || echo "$RESULTS" | grep -Fq 'Summary: 0 error(s)' > /dev/null 2>&1 ; then
 	# no errors, indicate success with terminal notifier and default sound before exiting
-	osascript -e "display notification \"No errors.\" with title \"$SCRIPT: $SHORTNAME\" subtitle \"\" sound name \"default\""
+	NOTIFY "$SCRIPT: $SHORTNAME" 'No errors.' 'default'
 	exit 0
 fi
 

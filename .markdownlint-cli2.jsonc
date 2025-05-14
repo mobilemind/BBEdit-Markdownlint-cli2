@@ -1,4 +1,4 @@
-// sample configuration file for markdownlint-cli2
+// sample configuration file for markdownlint-cli2 repo itself
 {
 	"config": {
 		"fenced-code-language": {

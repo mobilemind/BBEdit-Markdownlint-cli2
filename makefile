@@ -15,7 +15,7 @@ ZIP = ./$(PKGNAME)_v$(VERSION).zip
 
 .DEFAULT: all
 
-.PHONY: all clean install
+.PHONY: all clean install lint
 
 all: clean build
 
@@ -30,26 +30,29 @@ install: all
 build: $(PKG) $(ZIP)
 
 dist: all
+	@echo
+	@echo "Remember to commit & push changes, plus 'git tag v$(VERSION) && git push --tags' AND make a release."
+
+lint:
+	@if hash shellcheck > /dev/null 2>&1 ; then \
+		echo 'shellcheck -s sh src/Scripts/*.sh' && \
+		shellcheck -s sh src/Scripts/*.sh ; \
+	fi
 	@# Update the link in README.MD to the dist file to v$(VERSION)
 	perl -i -pe "s/$(PKGNAME)_v[.0-9]*?\.zip/$(PKGNAME)_v$(VERSION).zip/g" README.md
 	@if hash cspell > /dev/null 2>&1 && [ -s "$(HOME)/.cspell/.cspell.json" ] ; then \
 		echo 'cspell lint ~/.cspell/.cspell.json README.md LICENSE src/Scripts/*.sh' && \
 		cspell lint -c "$(HOME)/.cspell/.cspell.json" README.md LICENSE src/Scripts/*.sh ; \
 	fi
-	@echo
-	@echo "Remember to commit & push changes, plus 'git tag v$(VERSION) && git push --tags' AND make a release."
-
-$(PKG):
-	@if hash shellcheck > /dev/null 2>&1 ; then \
-		echo 'shellcheck -s sh src/Scripts/*.sh' && \
-		shellcheck -s sh src/Scripts/*.sh ; \
-	fi
 	@# format check the README.md (verifies that 'npx' & 'markdownlint-cli2' are installed)
 	npx markdownlint-cli2 README.md
+
+$(PKG): lint
 	mkdir -p $(CONTENTS_DIR)
 	cp README.md $(PKG)/.
 	cp LICEN* $(PKG)/.
 	cp -R $(SRC_DIR)/* $(CONTENTS_DIR)/.
+	sed -I '' "s/PLIST_VERSION/$(VERSION)/" $(CONTENTS_DIR)/Scripts/*.sh
 
 $(ZIP):
 	mkdir -p $(DIST_DIR)
