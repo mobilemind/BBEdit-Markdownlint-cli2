@@ -10,7 +10,9 @@
 		},
 		"no-inline-html": true
 	},
+	// Markdownlint-cli2.sh should work whether "fix" is "true" or "false"
+	"fix": false,
 	"gitignore": true,
-	// Markdownlint-cli2.sh should work whether noProgress is true or false
+	// Markdownlint-cli2.sh should work whether "noProgress" is "true" or "false"
 	"noProgress": true
 }

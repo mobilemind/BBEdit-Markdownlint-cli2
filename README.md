@@ -26,12 +26,12 @@ Initial development and testing was performed with:
 
 - macOS Sequoia 15.4.1
 - BBEdit 15.4.1
-- markdownlint-cli2 v0.17.2 (markdownlint v0.37.4)
+- markdownlint-cli2 v0.18.1 (markdownlint v0.38.0)
 
 ## Installation
 
 1. Download and unzip the package:
-   [Markdownlint-cli2.bbpackage_v0.9.6.zip](https://github.com/mobilemind/BBEdit-Markdownlint-cli2/raw/main/dist/Markdownlint-cli2.bbpackage_v0.9.6.zip)
+   [Markdownlint-cli2.bbpackage_v0.9.7.zip](https://github.com/mobilemind/BBEdit-Markdownlint-cli2/raw/main/dist/Markdownlint-cli2.bbpackage_v0.9.7.zip)
 2. Double–click the Markdownlint-cli2.bbpackage, BBEdit will prompt you to
    install (or update), and restart.
 
