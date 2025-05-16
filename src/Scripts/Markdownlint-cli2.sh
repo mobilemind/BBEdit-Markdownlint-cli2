@@ -56,6 +56,7 @@ elif [ "$?" -eq 2 ] || [ ! -s "$MDL_ERRORS" ] ; then
 fi
 
 # set BBEdit results RegEx pattern for markdownlint-cli2 default output
+# Example error: "README.md:1:27 MD009/no-trailing-spaces Trailing spaces [Expected: 0 or 2; Actual: 1]"
 PATTERN='(?P<file>.+?):(?P<line>\d+)?(:(?P<col>\d+))? (?P<type>\S+) (?P<msg>.*)$'
 
 # trim summary or version info from the top of MDL_ERRORS to make a clean list of issues
